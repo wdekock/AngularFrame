@@ -1,0 +1,28 @@
+import { Component, OnInit } from '@angular/core';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { MenuService, MenuItem } from './menu.service';
+
+@Component({
+  selector: 'app-menu',
+  template: `
+    <nav>
+      <ul>
+        <li *ngFor="let item of menuItems">
+          <a [routerLink]="item.route">{{ item.label }}</a>
+        </li>
+      </ul>
+    </nav>
+  `,
+})
+export class MenuComponent implements OnInit {
+  menuItems: MenuItem[] = [];
+
+  constructor(private oauthService: OAuthService, private menuService: MenuService) {}
+
+  ngOnInit() {
+    const claims = this.oauthService.getIdentityClaims();
+    const userGroups = claims ? claims['groups'] : [];
+    this.menuItems = this.menuService.getMenuItems(userGroups);
+  }
+}
+

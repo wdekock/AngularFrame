@@ -1,0 +1,10 @@
+<div>
+    <h1>SSO OAuth2 App</h1>
+    <button *ngIf="!isLoggedIn()" (click)="login()">Login</button>
+    <button *ngIf="isLoggedIn()" (click)="logout()">Logout</button>
+    <div *ngIf="isLoggedIn()">
+      <h2>Welcome, {{ name }}</h2>
+      <app-menu></app-menu>
+    </div>
+  </div>
+  
